@@ -159,7 +159,7 @@ export default function LeaderboardScreen({
               </div>
               <span
                 className={`font-mono font-black text-xs ${
-                  rank <= 3 ? "text-amber-400" : "text-white/30"
+                  Number(rank) <= 3 ? "text-amber-400" : "text-white/30"
                 }`}
               >
                 {u.score}
