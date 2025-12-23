@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Clock, Heart, Wind, X } from "lucide-react";
+import { Trophy, Clock, Heart, Wind, X, Gift } from "lucide-react";
 import confetti from "canvas-confetti";
 
 // Firebase Imports
@@ -21,7 +21,11 @@ import LeaderboardScreen from "./components/LeaderboardScreen";
 import GiftRevealSequence from "./components/GiftRevealSequence";
 
 const BG_URL = "https://images.unsplash.com/photo-1543589077-47d816067f73?q=80&w=2070&auto=format&fit=crop";
-
+const ITEM_TYPES = [
+  'gift', 'cookie', 'candy', 'cap', 'snow', 
+  'star', 'bell', 'tree', 'icecream', 'cake', 
+  'pizza', 'coffee', 'heart', 'sparkle', 'moon'
+];
 export default function ChristmasSpiritApp() {
   const [stage, setStage] = useState("intro");
   const [firstName, setFirstName] = useState("");
@@ -142,17 +146,19 @@ export default function ChristmasSpiritApp() {
         });
       }, 1000);
 
-      spawnerRef.current = setInterval(() => {
-        setFallingItems((prev) => [
-          ...prev,
-          {
-            id: Math.random(),
-            x: Math.random() * 80 + 10,
-            isRare: Math.random() > 0.85,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-          },
-        ]);
-      }, 750);
+     spawnerRef.current = setInterval(() => {
+       setFallingItems((prev) => [
+         ...prev,
+         {
+           id: Math.random(),
+           x: Math.random() * 85 + 5,
+           isRare: Math.random() > 0.9,
+           color: COLORS[Math.floor(Math.random() * COLORS.length)],
+           // Randomly pick one of the 15 items:
+           type: ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)],
+         },
+       ]);
+     }, 700);
 
       return () => {
         if (timerRef.current) clearInterval(timerRef.current);
@@ -228,31 +234,56 @@ export default function ChristmasSpiritApp() {
               Heavenly <span className="font-bold text-rose-500 not-italic">Gifts</span>
             </h1>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (firstName.trim() && lastName.trim()) setStage("play");
-              }}
-              className="space-y-4"
-            >
-              <input
-                required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="First Name"
-                className="w-full bg-white/5 rounded-3xl py-4 px-8 text-center outline-none border border-white/5 focus:border-rose-500/50 transition-all"
-              />
-              <input
-                required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Last Name"
-                className="w-full bg-white/5 rounded-3xl py-4 px-8 text-center outline-none border border-white/5 focus:border-rose-500/50 transition-all"
-              />
-              <button type="submit" className="w-full bg-white text-black py-5 rounded-3xl font-bold uppercase tracking-widest text-xs hover:bg-rose-500 hover:text-white transition-all active:scale-95">
-                Start Journey
-              </button>
-            </form>
+           <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    if (firstName.trim() && lastName.trim()) setStage("play");
+  }}
+  className="space-y-4"
+>
+  <input
+    required
+    value={firstName}
+    onChange={(e) => setFirstName(e.target.value)}
+    placeholder="First Name"
+    className="w-full bg-white/5 rounded-3xl py-4 px-8 text-center outline-none border border-white/5 focus:border-rose-500/50 transition-all placeholder:text-white/30"
+  />
+  <input
+    required
+    value={lastName}
+    onChange={(e) => setLastName(e.target.value)}
+    placeholder="Last Name"
+    className="w-full bg-white/5 rounded-3xl py-4 px-8 text-center outline-none border border-white/5 focus:border-rose-500/50 transition-all placeholder:text-white/30"
+  />
+  
+  <button 
+    type="submit" 
+    disabled={!firstName.trim() || !lastName.trim()}
+    className={`w-full py-5 rounded-3xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-95 
+      ${(!firstName.trim() || !lastName.trim()) 
+        ? "bg-white/10 text-white/20 cursor-not-allowed" 
+        : "bg-white text-black hover:bg-rose-500 hover:text-white shadow-xl"
+      }`}
+  >
+    {/* Shaking Gift Box Icon */}
+    <motion.div
+      animate={firstName.trim() && lastName.trim() ? {
+        rotate: [0, -10, 10, -10, 10, 0],
+        scale: [1, 1.1, 1]
+      } : {}}
+      transition={{ 
+        repeat: Infinity, 
+        duration: 0.5, 
+        repeatDelay: 1 
+      }}
+    >
+      <Gift size={18} />
+    </motion.div>
+    
+    COLLECT GIFTS
+  </button>
+</form> 
+
           </motion.div>
         )}
 
