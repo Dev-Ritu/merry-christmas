@@ -65,7 +65,7 @@ export default function GiftRevealSequence({ firstName, score, message, onViewLe
                 <Star className="absolute -top-4 -right-4 text-amber-400 animate-pulse" size={40} fill="currentColor" />
               </div>
               <p className="text-white font-black tracking-[0.2em] text-sm flex items-center gap-3 justify-center">
-                <Sparkles size={16} /> TAP TO UNWRAP YOUR GIFT <Sparkles size={16} />
+                <Sparkles size={16} /> TAP TO SEE WHAT GOD WANTS TO TELL YOU !! <Sparkles size={16} />
               </p>
             </motion.div>
           </motion.div>

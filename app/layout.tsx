@@ -13,10 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Santa's Secret World 🎅",
-  description: "I built a small interactive gift experience for you. Come and take your gift!",
+  title: "A New Year’s Surprise! 🎊",
+  description: "I’ve crafted a little holiday magic just for you. Come inside and unwrap your interactive gift!",
   openGraph: {
-    images: ['/og-image.jpg'], // Put a screenshot of your app in the public folder
+    images: [ {
+        url: '/newyear.jpeg', 
+        width: 1200,
+        height: 630,
+      }]
   },
 }
 export default function RootLayout({
